@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FurniCraft | Premium Furniture</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="productpage.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+    body { background: #f7f7f7; color: #333; }
+    a { text-decoration: none; color: inherit; }
+
+    /* Header */
+    header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; }
+    .logo { font-size: 24px; font-weight: bold; color: #8b5a2b; }
+    .search { flex: 1; margin: 0 30px; }
+    .search input { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+    .icons span { margin-left: 15px; cursor: pointer; }
+
+    nav { background: #8b5a2b; }
+    nav ul { display: flex; list-style: none; padding: 10px 40px; overflow-x: auto; }
+    nav ul li { margin-right: 25px; color: #fff; white-space: nowrap; cursor: pointer; }
+
+    /* Hero */
+    .hero { background: url('https://images.unsplash.com/photo-1615873968403-89e068629265') center/cover no-repeat; height: 70vh; display: flex; align-items: center; padding: 40px; color: #fff; }
+    .hero-content { max-width: 500px; background: rgba(0,0,0,0.4); padding: 30px; border-radius: 10px; }
+    .hero-content h1 { font-size: 42px; margin-bottom: 15px; }
+    .hero-content button { padding: 12px 20px; background: #d4a373; border: none; color: #fff; font-size: 16px; border-radius: 5px; cursor: pointer; }
+
+    /* Categories */
+    .section { padding: 50px 40px; }
+    .section h2 { margin-bottom: 30px;text-align: center; }
+    .categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 20px; }
+    .category { background: #fff; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    .category img { width: 100%; height: 150px; object-fit: cover; border-radius: 10px; }
+    .category h3 { margin-top: 15px;}
+
+    /* Products */
+    .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 20px; }
+    .product { background: #fff; border-radius: 10px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    .product img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; }
+    .product h4 { margin: 10px 0;}
+    .price { color: #8b5a2b; font-weight: bold; }
+    .product button { margin-top: 10px; width: 100%; padding: 10px; background: #8b5a2b; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+       
+    /* Cart Modal */
+    .cart-modal {position: fixed;inset: 0;background: rgba(0,0,0,0.6);display: none;align-items: center;justify-content: center;z-index: 999;}
+    .cart-box {background: #fff;width: 90%;max-width: 500px;padding: 25px;border-radius: 10px;}
+    .cart-item {display: flex;justify-content: space-between;align-items: center;margin: 15px 0;}
+    .qty-controls {display: flex;align-items: center;gap: 10px;}
+    .qty-controls button {padding: 5px 10px;border: none;background: #8b5a2b;color: #fff;cursor: pointer;border-radius: 4px;}
+    .cart-icon {position: relative;font-size: 20px;}
+    #cartCount {background: red;color: #fff;font-size: 12px;padding: 2px 6px;border-radius: 50%;position: absolute;top: -8px;right: -10px;}
+    .cart-box input {width: 100%;padding: 10px;margin: 10px 0;}
+
+    /* Footer */
+footer { background: #2f2f2f; color: #ddd; padding: 60px 40px 20px; }
+.footer-main { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; max-width: 1200px; margin: auto; }
+.footer-col h3 { color: #fff; margin-bottom: 15px; font-size: 22px; }
+.footer-col h4 { color: #fff; margin-bottom: 15px; font-size: 16px; }
+.footer-col p { font-size: 14px; line-height: 1.6; }
+.footer-col ul { list-style: none; padding: 0; }
+.footer-col ul li { font-size: 14px; margin-bottom: 8px; cursor: pointer; }
+.footer-col ul li:hover { color: #d4a373; }
+.socials span { margin-right: 10px; font-size: 18px; cursor: pointer; }
+.footer-col input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; }
+.footer-col button { padding: 10px; width: 100%; background: #8b5a2b; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+.footer-bottom { border-top: 1px solid #444; margin-top: 40px; padding-top: 20px; display: flex; justify-content: space-between; flex-wrap: wrap; font-size: 14px; }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 30px; }
+    footer h3 { margin-bottom: 15px; }
+    footer p, footer li { font-size: 14px; line-height: 1.6; }
+    footer ul { list-style: none; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .topbar { flex-direction: column; }
+      .search { margin: 15px 0; }
+      .hero-content h1 { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="logo">FurniCraft</div>
+    <div class="search"><input type="text" placeholder="Search for furniture..." /></div>
+    <div class="icons"><span onclick="openAuth()" title="Profile">👤</span><span id="userName" style="margin-left:10px;"></span><span title="Wishlist">❤️</span><span class="cart-icon" onclick="openCart()" title="Cart">🛒 <span id="cartCount">0</span></span><span title="Track Your Order"><i class="fa fa-truck"></i></span><span title="Call Us"><i class="fa fa-phone"></i></span></div>
+  </div>
+  <nav>
+    <ul>
+      <li>Living</li><li>Bedroom</li><li>Dining</li><li>Storage</li><li>Study</li><li>Decor</li><li>Sale</li><li>Mattress</li><li>Wardrobe</li><li>Crockery Unit</li><li>Study Table</li><li>Wicker Furniture</li><li>Drawer Unit</li><li>Kids</li>
+    </ul>
+  </nav>
+</header>
+<!--
+<section class="hero">
+  <div class="hero-content">
+    <h1>Beautiful Furniture for Every Home</h1>
+    <p>Solid wood | Custom designs | Free delivery</p>
+    <button>Shop Now</button>
+  </div>
+</section>
+--><!--
+<section class="section">
+  <h2>Shop by Category</h2>
+  <div class="categories">
+    <div class="category"><img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7" /><h3>Sofas</h3></div>
+    <div class="category"><img src="bed1.jpg" /><h3>Beds</h3></div>
+    <div class="category"><img src="mattress1.jpeg" /><h3>Mattress</h3></div>
+    <div class="category"><img src="sidebroad.jpeg" /><h3>Sideboard</h3></div>
+    <div class="category"><img src="cupbroad4.jpg" /><h3>Dressing Table</h3></div>
+    <div class="category"><img src="bed3.jpg" /><h3>Beds</h3></div>
+    <div class="category"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\716Jato5bnL._AC_UL320_.jpg" /><h3>Mirror</h3></div>
+    <div class="category"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\818VPBTCxBL._AC_UL320_.jpg" /><h3>Bedside Table</h3></div>
+    <div class="category"><img src="Dinning1.jpeg" /><h3>DiningRoom</h3></div>
+    <div class="category"><img src="cupbroad.jpg" /><h3>Wardrobes</h3></div>
+    <div class="category"><img src="cupbroad1.jpeg" /><h3>Cupboard</h3></div>
+    <div class="category"><img src="Drawer Unit1.jpeg" /><h3>Drawer Unit</h3></div>
+    <div class="category"><img src="Balcony Furniture.jpeg" /><h3>Balcony Furniture</h3></div>
+    <div class="category"><img src="Jhula.jpeg" /><h3>Jhula</h3></div>
+    <div class="category"><img src="cupbroad.jpg" /><h3>Wardrobes</h3></div>
+  </div>
+</section>
+-->
+<section class="section">
+<!--  <h2>Best Sellers</h2>-->
+  <div class="products">
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\81KsTv+iJ0L._AC_UL320_.jpg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\619B3u0VmML._AC_UL320_.jpg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\711tA4x49cL._AC_UL320_.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\711u+ZV8n3L._AC_UL320_.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\812Hwbi4qrL._AC_UL320_.jpg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\716Jato5bnL._AC_UL320_.jpg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\812vyX0SoXL._AC_UL320_.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\812vyX0SoXL._AC_UL320_.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\Balcony Furniture.jpeg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\ai-generated-8154082_1920.jpg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\be-1303912_1920.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bed1.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bed1.jpg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bookkself3.jpg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bookself.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bookself4.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bookself1.jpg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bookself6.jpg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bookshelves.jpeg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\chair1.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\chair2.jpg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\couch-9153405_1920.png" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\cupbroad.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\cupbroad1.jpeg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\cupbroad1.jpg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\cupbroad2.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\cupbroad3.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\dinning1.jpeg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\dinning1.jpeg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\Drawer Unit1.jpeg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\home-3678961_1920.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\images (1).jpeg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\images (3).jpeg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\images (5).jpeg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\images (5).jpeg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\sofa-5055005_1920.jpg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\sidebroad.jpeg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\self2.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\self1.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\sofa1.png" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\sofa1.png" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\images.jpeg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\ai-generated-8895614_1920.jpg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\carousal3.jpg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\cupbroad.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\81KsTv+iJ0L._AC_UL320_.jpg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\619B3u0VmML._AC_UL320_.jpg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\711tA4x49cL._AC_UL320_.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\711u+ZV8n3L._AC_UL320_.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\812Hwbi4qrL._AC_UL320_.jpg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\716Jato5bnL._AC_UL320_.jpg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\812vyX0SoXL._AC_UL320_.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\812vyX0SoXL._AC_UL320_.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\Balcony Furniture.jpeg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\ai-generated-8154082_1920.jpg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\be-1303912_1920.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bed1.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bed1.jpg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bookkself3.jpg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bookself.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bookself4.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bookself1.jpg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bookself6.jpg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\bookshelves.jpeg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\chair1.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\chair2.jpg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\couch-9153405_1920.png" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\cupbroad.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\cupbroad1.jpeg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\cupbroad1.jpg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\cupbroad2.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\cupbroad3.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\dinning1.jpeg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\dinning1.jpeg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\Drawer Unit1.jpeg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\home-3678961_1920.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\images (1).jpeg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\images (3).jpeg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\images (5).jpeg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\images (5).jpeg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\sofa-5055005_1920.jpg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\sidebroad.jpeg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\self2.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\self1.jpg" /><h4>Study Desk</h4><p class="price">₹9,999</p><button onclick="addToCart('Study Desk', 9999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\sofa1.png" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\sofa1.png" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\images.jpeg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\ai-generated-8895614_1920.jpg" /><h4>Wooden Sofa</h4><p class="price">₹24,999</p><button onclick="addToCart('Wooden Sofa', 24999)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\carousal3.jpg" /><h4>King Size Bed</h4><p class="price">₹32,499</p><button onclick="addToCart('King Size Bed', 32499)">Add to Cart</button></div>
+    <div class="product"><img src="C:\Users\rajpu\OneDrive\Desktop\website--furniture\cupbroad.jpg" /><h4>Dining Table</h4><p class="price">₹18,999</p><button onclick="addToCart('Dining Table', 18999)">Add to Cart</button></div>
+  </div>
+</section>
+
+<!--aboutus-->
+<!--
+<section class="aboutus" style="padding-left:4%;padding-right:4%">
+        <br><br><br><br><br><br><br><p>
+            <p style="font-size: 18px;font-weight:600">Buy Furniture Online at Wooden Street- India's One-Stop Solution for All Your Needs</p><br>
+            <p style="font-size: 15px;">A home is the most relaxing place in our life, and the furniture brings comfort to our home. Whether you want to furnish your new home or give your existing decor a new makeover, get every type of wooden furniture online in India that perfectly blends with your home decor with Wooden Street. At Wooden Street, we provide a vast collection of ready-made and customized solid wood furniture online. Since 2015, Wooden Street has been serving its customers with an exciting range of home furniture products like sofa set, coffee tables, wardrobes, and dining tables, all crafted from premium-quality materials. You can also explore our exclusive home decor range, including wall art, photo frames, indoor plants, tableware, glassware, kitchen organizers, and many more. Whether classy or minimalist, we offer you a massive variety of online furniture. Our various designs, dimensions, colors, and finish options make us one of India's best online furniture sites. From modern to traditional styles, contemporary to industrial ones, we provide every type of modern furniture online to match your home needs. Our craftsmen know your home furniture preference; thus, our website curates furniture of different sizes, whether space-saving or huge. Take a pick from our exquisite collection of home furniture online or get it customized as per your requirements; everything is possible at Wooden Street.</p>
+<br>
+            <p style="font-size: 18px;font-weight:600">Check out Various Furniture Materials Available at Wooden Street</p><br>
+            <p style="font-size: 15px;">At Wooden Street, one can find a range of furniture materials in our collection. Each type of material, be it wood or metal, has its own distinctive beauty and quality. Here, we have a list of furniture materials from which you can pick the best one that blends in with your needs and comfort:</p><br>
+            <p style="font-size: 18px;font-weight:600">Sheesham Wood</p><br>
+            <p style="font-size: 15px;">Sheesham is a type of Indian rosewood that is a trendy pick for home furniture. It is very dense and strong, making it ideal for pieces that need high strength. Sheesham wood has a deep reddish-brown color with darker streaks all over the surface. Because of its sophisticated look, it is often used for bedroom and office furniture. Sheesham furniture can be left unfinished or stained to create a unique appearance. Due to its durability, traditional Indian furniture is mostly made from sheesham wood. </p>
+<br>        <p style="font-size: 18px;font-weight:600">Mango Wood</p><br>
+            <p style="font-size: 15px;">Mango wood is another popular choice for furniture in India. It is a hardwood known for its strength and density. It is often used for heavy furniture, such as cabinets or wardrobes. Mango wood has a light-colored appearance and beautiful grain patterns. Mango furniture is often finished with a light stain to reveal its natural beauty. At Wooden Street, you can find the most unique designs of wooden furniture crafted with mango wood in our collection. </p>
+<br>        <p style="font-size: 18px;font-weight:600">Teak Wood</p><br>
+         <p style="font-size: 15px;">Teak is the most popular type of wood for furniture in India. It is known for its durability and natural resistance to moisture and decay. Due to its durability, teak furniture is perfect for indoor and outdoor use. It has a beautiful golden brown appearance that gets deeper if left untreated. At Wooden Street, you can find the most attractive and sophisticated furniture designs crafted with teak wood. You can also find our teak wood furniture pieces blended with brass and rattan cane, offering a unique appearance.
+</p><br>
+            <p style="font-size: 18px;font-weight:600">Engineered Wood</p><br>
+               <p style="font-size: 15px;">If you enjoy the sleekness that comes with simplicity, engineered wood will be the right choice for your home. They are versatile and neat and blend style and comfort while fitting into your budget. Engineered wood is perfect for giving your home a comfortable and functional makeover. So, if you are looking for an economical way to upgrade your sleeping space, look no further than engineered wood furniture!</p>
+            <br><p style="font-size: 18px;font-weight:600">Ash Wood</p><br>
+            <p style="font-size: 15px;">Ash wood is known for its strength, flexibility, and timeless appeal. With a smooth texture and light color tone, this can bring a sense of warmth and elegance to furniture. Known for its durability, ash wood is genrally used for crafting stylish chairs, tables, as well as cabinets. At Wooden Street, our ash wood collection reflects refined craftsmanship, blending natural beauty with modern design for furniture that lasts through years of use.</p>
+        </p><br>
+
+        <p>
+            <p style="font-size: 18px;font-weight:600">Select from the Wide Range of Furniture Online at Wooden Street</p><br>
+            <p style="font-size: 15px;">A home is the most relaxing place in our life, and the furniture brings comfort to our home. Whether you want to furnish your new home or give your existing decor a new makeover, get every type of wooden furniture online in India that perfectly blends with your home decor with Wooden Street. At Wooden Street, we provide a vast collection of ready-made and customized solid wood furniture online. Since 2015, Wooden Street has been serving its customers with an exciting range of home furniture products like sofa set, coffee tables, wardrobes, and dining tables, all crafted from premium-quality materials. You can also explore our exclusive home decor range, including wall art, photo frames, indoor plants, tableware, glassware, kitchen organizers, and many more. Whether classy or minimalist, we offer you a massive variety of online furniture. Our various designs, dimensions, colors, and finish options make us one of India's best online furniture sites. From modern to traditional styles, contemporary to industrial ones, we provide every type of modern furniture online to match your home needs. Our craftsmen know your home furniture preference; thus, our website curates furniture of different sizes, whether space-saving or huge. Take a pick from our exquisite collection of home furniture online or get it customized as per your requirements; everything is possible at Wooden Street.</p>
+<br>
+            <p style="font-size: 18px;font-weight:600">Check out Various Furniture Materials Available at Wooden Street</p>
+            <br><p style="font-size: 15px;">At Wooden Street, one can find a range of furniture materials in our collection. Each type of material, be it wood or metal, has its own distinctive beauty and quality. Here, we have a list of furniture materials from which you can pick the best one that blends in with your needs and comfort:</p>
+            <br><p style="font-size: 18px;font-weight:600">Living Room</p>
+             <br>  <p style="font-size: 15px;">Sheesham is a type of Indian rosewood that is a trendy pick for home furniture. It is very dense and strong, making it ideal for pieces that need high strength. Sheesham wood has a deep reddish-brown color with darker streaks all over the surface. Because of its sophisticated look, it is often used for bedroom and office furniture. Sheesham furniture can be left unfinished or stained to create a unique appearance. Due to its durability, traditional Indian furniture is mostly made from sheesham wood. </p>
+           <br> <p style="font-size: 18px;font-weight:600">Bedroom</p>
+            <br>   <p style="font-size: 15px;">Mango wood is another popular choice for furniture in India. It is a hardwood known for its strength and density. It is often used for heavy furniture, such as cabinets or wardrobes. Mango wood has a light-colored appearance and beautiful grain patterns. Mango furniture is often finished with a light stain to reveal its natural beauty. At Wooden Street, you can find the most unique designs of wooden furniture crafted with mango wood in our collection. </p>
+            <br><p style="font-size: 18px;font-weight:600">Dining Room</p>
+            <br>   <p style="font-size: 15px;">Teak is the most popular type of wood for furniture in India. It is known for its durability and natural resistance to moisture and decay. Due to its durability, teak furniture is perfect for indoor and outdoor use. It has a beautiful golden brown appearance that gets deeper if left untreated. At Wooden Street, you can find the most attractive and sophisticated furniture designs crafted with teak wood. You can also find our teak wood furniture pieces blended with brass and rattan cane, offering a unique appearance.
+</p>
+            <br><p style="font-size: 18px;font-weight:600">Study Room</p>
+            <br>   <p style="font-size: 15px;">If you enjoy the sleekness that comes with simplicity, engineered wood will be the right choice for your home. They are versatile and neat and blend style and comfort while fitting into your budget. Engineered wood is perfect for giving your home a comfortable and functional makeover. So, if you are looking for an economical way to upgrade your sleeping space, look no further than engineered wood furniture!</p>
+           <br> <p style="font-size: 18px;font-weight:600">Kids Room</p>
+            <br>   <p style="font-size: 15px;">Ash wood is known for its strength, flexibility, and timeless appeal. With a smooth texture and light color tone, this can bring a sense of warmth and elegance to furniture. Known for its durability, ash wood is genrally used for crafting stylish chairs, tables, as well as cabinets. At Wooden Street, our ash wood collection reflects refined craftsmanship, blending natural beauty with modern design for furniture that lasts through years of use.</p>
+            <br> <p style="font-size: 18px;font-weight:600">Office Furniture</p>
+            <br>   <p style="font-size: 15px;">Sheesham is a type of Indian rosewood that is a trendy pick for home furniture. It is very dense and strong, making it ideal for pieces that need high strength. Sheesham wood has a deep reddish-brown color with darker streaks all over the surface. Because of its sophisticated look, it is often used for bedroom and office furniture. Sheesham furniture can be left unfinished or stained to create a unique appearance. Due to its durability, traditional Indian furniture is mostly made from sheesham wood. </p>
+            <br><p style="font-size: 18px;font-weight:600">Outdoor Furniture</p>
+             <br>  <p style="font-size: 15px;">Mango wood is another popular choice for furniture in India. It is a hardwood known for its strength and density. It is often used for heavy furniture, such as cabinets or wardrobes. Mango wood has a light-colored appearance and beautiful grain patterns. Mango furniture is often finished with a light stain to reveal its natural beauty. At Wooden Street, you can find the most unique designs of wooden furniture crafted with mango wood in our collection. </p>
+            <br><p style="font-size: 18px;font-weight:600">Restaurant Furniture</p>
+             <br>  <p style="font-size: 15px;">Teak is the most popular type of wood for furniture in India. It is known for its durability and natural resistance to moisture and decay. Due to its durability, teak furniture is perfect for indoor and outdoor use. It has a beautiful golden brown appearance that gets deeper if left untreated. At Wooden Street, you can find the most attractive and sophisticated furniture designs crafted with teak wood. You can also find our teak wood furniture pieces blended with brass and rattan cane, offering a unique appearance.
+</p><br>
+            <p style="font-size: 18px;font-weight:600">Home Decor</p>
+            <br>   <p style="font-size: 15px;">If you enjoy the sleekness that comes with simplicity, engineered wood will be the right choice for your home. They are versatile and neat and blend style and comfort while fitting into your budget. Engineered wood is perfect for giving your home a comfortable and functional makeover. So, if you are looking for an economical way to upgrade your sleeping space, look no further than engineered wood furniture!</p>
+            <br><p style="font-size: 18px;font-weight:600">Entryway & Foyer</p>
+            <br>   <p style="font-size: 15px;">Ash wood is known for its strength, flexibility, and timeless appeal. With a smooth texture and light color tone, this can bring a sense of warmth and elegance to furniture. Known for its durability, ash wood is genrally used for crafting stylish chairs, tables, as well as cabinets. At Wooden Street, our ash wood collection reflects refined craftsmanship, blending natural beauty with modern design for furniture that lasts through years of use.</p>
+        </p><br>
+
+        <p><br>
+            <p style="font-size: 18px;font-weight:600">Buy Furniture Online at Wooden Street- India's One-Stop Solution for All Your Needs</p>
+            <br><p style="font-size: 15px;">A home is the most relaxing place in our life, and the furniture brings comfort to our home. Whether you want to furnish your new home or give your existing decor a new makeover, get every type of wooden furniture online in India that perfectly blends with your home decor with Wooden Street. At Wooden Street, we provide a vast collection of ready-made and customized solid wood furniture online. Since 2015, Wooden Street has been serving its customers with an exciting range of home furniture products like sofa set, coffee tables, wardrobes, and dining tables, all crafted from premium-quality materials. You can also explore our exclusive home decor range, including wall art, photo frames, indoor plants, tableware, glassware, kitchen organizers, and many more. Whether classy or minimalist, we offer you a massive variety of online furniture. Our various designs, dimensions, colors, and finish options make us one of India's best online furniture sites. From modern to traditional styles, contemporary to industrial ones, we provide every type of modern furniture online to match your home needs. Our craftsmen know your home furniture preference; thus, our website curates furniture of different sizes, whether space-saving or huge. Take a pick from our exquisite collection of home furniture online or get it customized as per your requirements; everything is possible at Wooden Street.</p>
+
+            <br><p style="font-size: 18px;font-weight:600">Check out Various Furniture Materials Available at Wooden Street</p>
+           <br> <p style="font-size: 15px;">At Wooden Street, one can find a range of furniture materials in our collection. Each type of material, be it wood or metal, has its own distinctive beauty and quality. Here, we have a list of furniture materials from which you can pick the best one that blends in with your needs and comfort:</p>
+           <br> <p style="font-size: 18px;font-weight:600">Sheesham Wood</p>
+            <br>   <p style="font-size: 15px;">Sheesham is a type of Indian rosewood that is a trendy pick for home furniture. It is very dense and strong, making it ideal for pieces that need high strength. Sheesham wood has a deep reddish-brown color with darker streaks all over the surface. Because of its sophisticated look, it is often used for bedroom and office furniture. Sheesham furniture can be left unfinished or stained to create a unique appearance. Due to its durability, traditional Indian furniture is mostly made from sheesham wood. </p>
+           <br> <p style="font-size: 18px;font-weight:600">Mango Wood</p>
+            <br>   <p style="font-size: 15px;">Mango wood is another popular choice for furniture in India. It is a hardwood known for its strength and density. It is often used for heavy furniture, such as cabinets or wardrobes. Mango wood has a light-colored appearance and beautiful grain patterns. Mango furniture is often finished with a light stain to reveal its natural beauty. At Wooden Street, you can find the most unique designs of wooden furniture crafted with mango wood in our collection. </p>
+            <br><p style="font-size: 18px;font-weight:600">Teak Wood</p>
+            <br>   <p style="font-size: 15px;">Teak is the most popular type of wood for furniture in India. It is known for its durability and natural resistance to moisture and decay. Due to its durability, teak furniture is perfect for indoor and outdoor use. It has a beautiful golden brown appearance that gets deeper if left untreated. At Wooden Street, you can find the most attractive and sophisticated furniture designs crafted with teak wood. You can also find our teak wood furniture pieces blended with brass and rattan cane, offering a unique appearance.
+</p><br>
+            <p style="font-size: 18px;font-weight:600">Engineered Wood</p>
+            <br>   <p style="font-size: 15px;">If you enjoy the sleekness that comes with simplicity, engineered wood will be the right choice for your home. They are versatile and neat and blend style and comfort while fitting into your budget. Engineered wood is perfect for giving your home a comfortable and functional makeover. So, if you are looking for an economical way to upgrade your sleeping space, look no further than engineered wood furniture!</p>
+           <br> <p style="font-size: 18px;font-weight:600">Ash Wood</p>
+            <br>   <p style="font-size: 15px;">Ash wood is known for its strength, flexibility, and timeless appeal. With a smooth texture and light color tone, this can bring a sense of warmth and elegance to furniture. Known for its durability, ash wood is genrally used for crafting stylish chairs, tables, as well as cabinets. At Wooden Street, our ash wood collection reflects refined craftsmanship, blending natural beauty with modern design for furniture that lasts through years of use.</p>
+        </p><br>
+
+        <p>
+            <br><p style="font-size: 18px;font-weight:600">Buy Furniture Online at Wooden Street- India's One-Stop Solution for All Your Needs</p>
+            <br><p style="font-size: 15px;">A home is the most relaxing place in our life, and the furniture brings comfort to our home. Whether you want to furnish your new home or give your existing decor a new makeover, get every type of wooden furniture online in India that perfectly blends with your home decor with Wooden Street. At Wooden Street, we provide a vast collection of ready-made and customized solid wood furniture online. Since 2015, Wooden Street has been serving its customers with an exciting range of home furniture products like sofa set, coffee tables, wardrobes, and dining tables, all crafted from premium-quality materials. You can also explore our exclusive home decor range, including wall art, photo frames, indoor plants, tableware, glassware, kitchen organizers, and many more. Whether classy or minimalist, we offer you a massive variety of online furniture. Our various designs, dimensions, colors, and finish options make us one of India's best online furniture sites. From modern to traditional styles, contemporary to industrial ones, we provide every type of modern furniture online to match your home needs. Our craftsmen know your home furniture preference; thus, our website curates furniture of different sizes, whether space-saving or huge. Take a pick from our exquisite collection of home furniture online or get it customized as per your requirements; everything is possible at Wooden Street.</p>
+
+            <br><p style="font-size: 18px;font-weight:600">Check out Various Furniture Materials Available at Wooden Street</p>
+            <br><p style="font-size: 15px;">At Wooden Street, one can find a range of furniture materials in our collection. Each type of material, be it wood or metal, has its own distinctive beauty and quality. Here, we have a list of furniture materials from which you can pick the best one that blends in with your needs and comfort:</p>
+            <br><p style="font-size: 18px;font-weight:600">Sheesham Wood</p>
+            <br>   <p style="font-size: 15px;">Sheesham is a type of Indian rosewood that is a trendy pick for home furniture. It is very dense and strong, making it ideal for pieces that need high strength. Sheesham wood has a deep reddish-brown color with darker streaks all over the surface. Because of its sophisticated look, it is often used for bedroom and office furniture. Sheesham furniture can be left unfinished or stained to create a unique appearance. Due to its durability, traditional Indian furniture is mostly made from sheesham wood. </p>
+            <br><p style="font-size: 18px;font-weight:600">Mango Wood</p>
+            <br>   <p style="font-size: 15px;">Mango wood is another popular choice for furniture in India. It is a hardwood known for its strength and density. It is often used for heavy furniture, such as cabinets or wardrobes. Mango wood has a light-colored appearance and beautiful grain patterns. Mango furniture is often finished with a light stain to reveal its natural beauty. At Wooden Street, you can find the most unique designs of wooden furniture crafted with mango wood in our collection. </p>
+            <br><p style="font-size: 18px;font-weight:600">Teak Wood</p>
+            <br>   <p style="font-size: 15px;">Teak is the most popular type of wood for furniture in India. It is known for its durability and natural resistance to moisture and decay. Due to its durability, teak furniture is perfect for indoor and outdoor use. It has a beautiful golden brown appearance that gets deeper if left untreated. At Wooden Street, you can find the most attractive and sophisticated furniture designs crafted with teak wood. You can also find our teak wood furniture pieces blended with brass and rattan cane, offering a unique appearance.
+</p>
+            <br><p style="font-size: 18px;font-weight:600">Engineered Wood</p>
+               <p style="font-size: 15px;">If you enjoy the sleekness that comes with simplicity, engineered wood will be the right choice for your home. They are versatile and neat and blend style and comfort while fitting into your budget. Engineered wood is perfect for giving your home a comfortable and functional makeover. So, if you are looking for an economical way to upgrade your sleeping space, look no further than engineered wood furniture!</p>
+            <br><p style="font-size: 18px;font-weight:600">Ash Wood</p>
+             <br>  <p style="font-size: 15px;">Ash wood is known for its strength, flexibility, and timeless appeal. With a smooth texture and light color tone, this can bring a sense of warmth and elegance to furniture. Known for its durability, ash wood is genrally used for crafting stylish chairs, tables, as well as cabinets. At Wooden Street, our ash wood collection reflects refined craftsmanship, blending natural beauty with modern design for furniture that lasts through years of use.</p>
+        </p><br>
+
+        <p>
+            <p style="font-size: 18px;font-weight:600">Select from the Wide Range of Furniture Online at Wooden Street</p>
+            <br><p style="font-size: 15px;">A home is the most relaxing place in our life, and the furniture brings comfort to our home. Whether you want to furnish your new home or give your existing decor a new makeover, get every type of wooden furniture online in India that perfectly blends with your home decor with Wooden Street. At Wooden Street, we provide a vast collection of ready-made and customized solid wood furniture online. Since 2015, Wooden Street has been serving its customers with an exciting range of home furniture products like sofa set, coffee tables, wardrobes, and dining tables, all crafted from premium-quality materials. You can also explore our exclusive home decor range, including wall art, photo frames, indoor plants, tableware, glassware, kitchen organizers, and many more. Whether classy or minimalist, we offer you a massive variety of online furniture. Our various designs, dimensions, colors, and finish options make us one of India's best online furniture sites. From modern to traditional styles, contemporary to industrial ones, we provide every type of modern furniture online to match your home needs. Our craftsmen know your home furniture preference; thus, our website curates furniture of different sizes, whether space-saving or huge. Take a pick from our exquisite collection of home furniture online or get it customized as per your requirements; everything is possible at Wooden Street.</p>
+
+            <br><p style="font-size: 18px;font-weight:600">Check out Various Furniture Materials Available at Wooden Street</p>
+            <br><p style="font-size: 15px;">At Wooden Street, one can find a range of furniture materials in our collection. Each type of material, be it wood or metal, has its own distinctive beauty and quality. Here, we have a list of furniture materials from which you can pick the best one that blends in with your needs and comfort:</p>
+            <br><p style="font-size: 18px;font-weight:600">Living Room</p>
+             <br>  <p style="font-size: 15px;">Sheesham is a type of Indian rosewood that is a trendy pick for home furniture. It is very dense and strong, making it ideal for pieces that need high strength. Sheesham wood has a deep reddish-brown color with darker streaks all over the surface. Because of its sophisticated look, it is often used for bedroom and office furniture. Sheesham furniture can be left unfinished or stained to create a unique appearance. Due to its durability, traditional Indian furniture is mostly made from sheesham wood. </p>
+            <br><p style="font-size: 18px;font-weight:600">Bedroom</p>
+            <br>   <p style="font-size: 15px;">Mango wood is another popular choice for furniture in India. It is a hardwood known for its strength and density. It is often used for heavy furniture, such as cabinets or wardrobes. Mango wood has a light-colored appearance and beautiful grain patterns. Mango furniture is often finished with a light stain to reveal its natural beauty. At Wooden Street, you can find the most unique designs of wooden furniture crafted with mango wood in our collection. </p>
+            <br><p style="font-size: 18px;font-weight:600">Dining Room</p>
+            <br>   <p style="font-size: 15px;">Teak is the most popular type of wood for furniture in India. It is known for its durability and natural resistance to moisture and decay. Due to its durability, teak furniture is perfect for indoor and outdoor use. It has a beautiful golden brown appearance that gets deeper if left untreated. At Wooden Street, you can find the most attractive and sophisticated furniture designs crafted with teak wood. You can also find our teak wood furniture pieces blended with brass and rattan cane, offering a unique appearance.
+</p><br>
+            <p style="font-size: 18px;font-weight:600">Study Room</p>
+            <br>   <p style="font-size: 15px;">If you enjoy the sleekness that comes with simplicity, engineered wood will be the right choice for your home. They are versatile and neat and blend style and comfort while fitting into your budget. Engineered wood is perfect for giving your home a comfortable and functional makeover. So, if you are looking for an economical way to upgrade your sleeping space, look no further than engineered wood furniture!</p>
+           <br> <p style="font-size: 18px;font-weight:600">Kids Room</p>
+             <br>  <p style="font-size: 15px;">Ash wood is known for its strength, flexibility, and timeless appeal. With a smooth texture and light color tone, this can bring a sense of warmth and elegance to furniture. Known for its durability, ash wood is genrally used for crafting stylish chairs, tables, as well as cabinets. At Wooden Street, our ash wood collection reflects refined craftsmanship, blending natural beauty with modern design for furniture that lasts through years of use.</p>
+             <br><p style="font-size: 18px;font-weight:600">Office Furniture</p>
+            <br>   <p style="font-size: 15px;">Sheesham is a type of Indian rosewood that is a trendy pick for home furniture. It is very dense and strong, making it ideal for pieces that need high strength. Sheesham wood has a deep reddish-brown color with darker streaks all over the surface. Because of its sophisticated look, it is often used for bedroom and office furniture. Sheesham furniture can be left unfinished or stained to create a unique appearance. Due to its durability, traditional Indian furniture is mostly made from sheesham wood. </p>
+            <br><p style="font-size: 18px;font-weight:600">Outdoor Furniture</p>
+            <br>   <p style="font-size: 15px;">Mango wood is another popular choice for furniture in India. It is a hardwood known for its strength and density. It is often used for heavy furniture, such as cabinets or wardrobes. Mango wood has a light-colored appearance and beautiful grain patterns. Mango furniture is often finished with a light stain to reveal its natural beauty. At Wooden Street, you can find the most unique designs of wooden furniture crafted with mango wood in our collection. </p>
+            <br><p style="font-size: 18px;font-weight:600">Restaurant Furniture</p>
+            <br>   <p style="font-size: 15px;">Teak is the most popular type of wood for furniture in India. It is known for its durability and natural resistance to moisture and decay. Due to its durability, teak furniture is perfect for indoor and outdoor use. It has a beautiful golden brown appearance that gets deeper if left untreated. At Wooden Street, you can find the most attractive and sophisticated furniture designs crafted with teak wood. You can also find our teak wood furniture pieces blended with brass and rattan cane, offering a unique appearance.
+</p><br>
+            <p style="font-size: 18px;font-weight:600">Home Decor</p>
+            <br>   <p style="font-size: 15px;">If you enjoy the sleekness that comes with simplicity, engineered wood will be the right choice for your home. They are versatile and neat and blend style and comfort while fitting into your budget. Engineered wood is perfect for giving your home a comfortable and functional makeover. So, if you are looking for an economical way to upgrade your sleeping space, look no further than engineered wood furniture!</p>
+            <p style="font-size: 18px;font-weight:600">Entryway & Foyer</p>
+            <br>   <p style="font-size: 15px;">Ash wood is known for its strength, flexibility, and timeless appeal. With a smooth texture and light color tone, this can bring a sense of warmth and elegance to furniture. Known for its durability, ash wood is genrally used for crafting stylish chairs, tables, as well as cabinets. At Wooden Street, our ash wood collection reflects refined craftsmanship, blending natural beauty with modern design for furniture that lasts through years of use.</p>
+        </p><br>
+
+        <p>
+            <br><p style="font-size: 18px;font-weight:600">Buy Furniture Online at Wooden Street- India's One-Stop Solution for All Your Needs</p>
+           <br> <p style="font-size: 15px;">A home is the most relaxing place in our life, and the furniture brings comfort to our home. Whether you want to furnish your new home or give your existing decor a new makeover, get every type of wooden furniture online in India that perfectly blends with your home decor with Wooden Street. At Wooden Street, we provide a vast collection of ready-made and customized solid wood furniture online. Since 2015, Wooden Street has been serving its customers with an exciting range of home furniture products like sofa set, coffee tables, wardrobes, and dining tables, all crafted from premium-quality materials. You can also explore our exclusive home decor range, including wall art, photo frames, indoor plants, tableware, glassware, kitchen organizers, and many more. Whether classy or minimalist, we offer you a massive variety of online furniture. Our various designs, dimensions, colors, and finish options make us one of India's best online furniture sites. From modern to traditional styles, contemporary to industrial ones, we provide every type of modern furniture online to match your home needs. Our craftsmen know your home furniture preference; thus, our website curates furniture of different sizes, whether space-saving or huge. Take a pick from our exquisite collection of home furniture online or get it customized as per your requirements; everything is possible at Wooden Street.</p>
+
+            <br><p style="font-size: 18px;font-weight:600">Check out Various Furniture Materials Available at Wooden Street</p>
+            <p style="font-size: 15px;">At Wooden Street, one can find a range of furniture materials in our collection. Each type of material, be it wood or metal, has its own distinctive beauty and quality. Here, we have a list of furniture materials from which you can pick the best one that blends in with your needs and comfort:</p>
+            <br><p style="font-size: 18px;font-weight:600">Sheesham Wood</p>
+            <br>   <p style="font-size: 15px;">Sheesham is a type of Indian rosewood that is a trendy pick for home furniture. It is very dense and strong, making it ideal for pieces that need high strength. Sheesham wood has a deep reddish-brown color with darker streaks all over the surface. Because of its sophisticated look, it is often used for bedroom and office furniture. Sheesham furniture can be left unfinished or stained to create a unique appearance. Due to its durability, traditional Indian furniture is mostly made from sheesham wood. </p>
+           <br> <p style="font-size: 18px;font-weight:600">Mango Wood</p>
+            <br>   <p style="font-size: 15px;">Mango wood is another popular choice for furniture in India. It is a hardwood known for its strength and density. It is often used for heavy furniture, such as cabinets or wardrobes. Mango wood has a light-colored appearance and beautiful grain patterns. Mango furniture is often finished with a light stain to reveal its natural beauty. At Wooden Street, you can find the most unique designs of wooden furniture crafted with mango wood in our collection. </p>
+            <br><p style="font-size: 18px;font-weight:600">Teak Wood</p>
+            <br>   <p style="font-size: 15px;">Teak is the most popular type of wood for furniture in India. It is known for its durability and natural resistance to moisture and decay. Due to its durability, teak furniture is perfect for indoor and outdoor use. It has a beautiful golden brown appearance that gets deeper if left untreated. At Wooden Street, you can find the most attractive and sophisticated furniture designs crafted with teak wood. You can also find our teak wood furniture pieces blended with brass and rattan cane, offering a unique appearance.
+</p>
+            <br><p style="font-size: 18px;font-weight:600">Engineered Wood</p>
+            <br>   <p style="font-size: 15px;">If you enjoy the sleekness that comes with simplicity, engineered wood will be the right choice for your home. They are versatile and neat and blend style and comfort while fitting into your budget. Engineered wood is perfect for giving your home a comfortable and functional makeover. So, if you are looking for an economical way to upgrade your sleeping space, look no further than engineered wood furniture!</p>
+            <br><p style="font-size: 18px;font-weight:600">Ash Wood</p>
+            <br>   <p style="font-size: 15px;">Ash wood is known for its strength, flexibility, and timeless appeal. With a smooth texture and light color tone, this can bring a sense of warmth and elegance to furniture. Known for its durability, ash wood is genrally used for crafting stylish chairs, tables, as well as cabinets. At Wooden Street, our ash wood collection reflects refined craftsmanship, blending natural beauty with modern design for furniture that lasts through years of use.</p>
+        </p><br><br><br>
+    </section><br><br><br>
+  -->
+<!-- CART MODAL -->
+<div id="cartModal" class="cart-modal">
+  <div class="cart-box">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <h3 id="cartTotal">Total: ₹0</h3>
+    <button onclick="closeCart()">Close</button>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-main">
+    <div class="footer-col">
+      <h3>FurniCraft</h3>
+      <p>Premium solid wood furniture crafted for modern Indian homes. Quality, comfort, and timeless design—delivered to your doorstep.</p>
+      <div class="socials">
+        <span>📘</span><span>📸</span><span>🐦</span><span>▶️</span>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li>Sofas</li>
+        <li>Beds</li>
+        <li>Dining Tables</li>
+        <li>Wardrobes</li>
+        <li>Home Decor</li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Customer Service</h4>
+      <ul>
+        <li>Track Order</li>
+        <li>Returns & Refunds</li>
+        <li>Installation</li>
+        <li>FAQs</li>
+        <li>Contact Us</li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Our Company</h4>
+      <ul>
+        <li>About Us</li>
+        <li>Experience Stores</li>
+        <li>Careers</li>
+        <li>Privacy Policy</li>
+        <li>Terms & Conditions</li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Stay Connected</h4>
+      <p>Subscribe for offers & updates</p>
+      <input type="email" placeholder="Enter your email" />
+      <button>Subscribe</button>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 FurniCraft. All Rights Reserved.</p>
+    <p>Made with ❤️ in India</p>
+  </div>
+</footer>
+
+<script>
+let cart = [];
+
+function addToCart(name, price) {
+  const item = cart.find(p => p.name === name);
+  if (item) {
+    item.qty++;
+  } else {
+    cart.push({ name, price, qty: 1 });
+  }
+  updateCartCount();
+  openCart();
+}
+
+function openCart() {
+  document.getElementById("cartModal").style.display = "flex";
+  renderCart();
+}
+
+function closeCart() {
+  document.getElementById("cartModal").style.display = "none";
+}
+
+function renderCart() {
+  const cartItems = document.getElementById("cartItems");
+  cartItems.innerHTML = "";
+  let total = 0;
+
+  cart.forEach((item, index) => {
+    total += item.price * item.qty;
+    cartItems.innerHTML += `
+      <div class="cart-item">
+        <span>${item.name}</span>
+        <div class="qty-controls">
+          <button onclick="decreaseQty(${index})">−</button>
+          <span>${item.qty}</span>
+          <button onclick="increaseQty(${index})">+</button>
+        </div>
+        <span>₹${item.price * item.qty}</span>
+      </div>
+    `;
+  });
+
+  document.getElementById("cartTotal").innerText = "Total: ₹" + total;
+}
+
+function increaseQty(index) {
+  cart[index].qty++;
+  renderCart();
+  updateCartCount();
+}
+
+function decreaseQty(index) {
+  cart[index].qty--;
+  if (cart[index].qty === 0) {
+    cart.splice(index, 1);
+  }
+  renderCart();
+  updateCartCount();
+}
+
+function updateCartCount() {
+  let count = 0;
+  cart.forEach(item => count += item.qty);
+  document.getElementById("cartCount").innerText = count;
+}
+
+</script>
+
+<script>// AUTHENTICATION LOGIC
+    let isLogin = true;
+
+function openAuth() {
+  document.getElementById("authModal").style.display = "flex";
+}
+
+function closeAuth() {
+  document.getElementById("authModal").style.display = "none";
+}
+
+function toggleAuthMode() {
+  isLogin = !isLogin;
+
+  document.getElementById("authTitle").innerText = isLogin ? "Login" : "Sign Up";
+  document.getElementById("authName").style.display = isLogin ? "none" : "block";
+  document.getElementById("toggleAuth").innerText =
+    isLogin ? "New user? Sign up" : "Already have an account? Login";
+}
+
+function handleAuth() {
+  const name = document.getElementById("authName").value;
+  const email = document.getElementById("authEmail").value;
+  const password = document.getElementById("authPassword").value;
+
+  if (!email || !password || (!isLogin && !name)) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  if (isLogin) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || user.email !== email || user.password !== password) {
+      alert("Invalid login");
+      return;
+    }
+    setUser(user.name);
+  } else {
+    const user = { name, email, password };
+    localStorage.setItem("user", JSON.stringify(user));
+    setUser(name);
+  }
+
+  closeAuth();
+}
+
+function setUser(name) {
+  localStorage.setItem("loggedInUser", name);
+  document.getElementById("userName").innerText = "Hello, " + name + " | Logout";
+  document.getElementById("userName").onclick = logout;
+}
+
+function logout() {
+  localStorage.removeItem("loggedInUser");
+  location.reload();
+}
+
+window.onload = () => {
+  const user = localStorage.getItem("loggedInUser");
+  if (user) setUser(user);
+};
+
+</script>
+
+<script>// GOOGLE SIGN-IN LOGIC
+    function handleGoogleResponse(response) {
+  const data = parseJwt(response.credential);
+
+  const name = data.name;
+  const email = data.email;
+
+  localStorage.setItem("loggedInUser", name);
+  localStorage.setItem("googleUser", email);
+
+  setUser(name);
+  closeAuth();
+}
+
+// Decode JWT
+function parseJwt(token) {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  return JSON.parse(atob(base64));
+}
+
+// Initialize Google Button
+window.onload = () => {
+  google.accounts.id.initialize({
+    client_id: "YOUR_GOOGLE_CLIENT_ID",
+    callback: handleGoogleResponse
+  });
+
+  google.accounts.id.renderButton(
+    document.getElementById("googleBtn"),
+    { theme: "outline", size: "large" }
+  );
+
+  const user = localStorage.getItem("loggedInUser");
+  if (user) setUser(user);
+};
+
+</script>
+
+<script>// SAMPLE PRODUCT DATA
+    const products = [
+  {
+    id: 1,
+    name: "Luxury Wooden Sofa",
+    price: 34999,
+    image: "images/sofa.jpg",
+    desc: "Premium solid wood sofa with high-density cushions."
+  },
+  {
+    id: 2,
+    name: "King Size Bed",
+    price: 45999,
+    image: "images/bed.jpg",
+    desc: "Strong teak wood bed with modern design."
+  }
+];
+</script>
+
+<script>// BACK BUTTON LOGIC
+function goBack() {
+  window.history.back();
+}
+</script>
+
+<!-- AUTH MODAL -->
+<div id="authModal" class="cart-modal">
+  <div class="cart-box">
+    <h2 id="authTitle">Login</h2>
+
+    <input type="text" id="authName" placeholder="Full Name" style="display:none">
+    <input type="email" id="authEmail" placeholder="Email">
+    <input type="password" id="authPassword" placeholder="Password">
+
+    <button onclick="handleAuth()">Login</button>
+    <div id="googleBtn" style="margin-top:15px;"></div>
+
+
+    <p id="toggleAuth" style="margin-top:10px; cursor:pointer; color:#8b5a2b;"
+       onclick="toggleAuthMode()">New user? Sign up</p>
+
+    <button onclick="closeAuth()" style="margin-top:10px;">Return</button>
+  </div>
+</div>
+
+<!-- BACK BUTTON -->
+<button class="back-fixed-btn" onclick="goBack()">
+  <i class="fa-solid fa-arrow-left"></i>
+</button>
+
+</body>
+</html>
